@@ -37,12 +37,15 @@ class Admin extends Component {
     const { docs, tasksP, tasks } = this.state;
     return (
       <div>
-        <p>Admin</p>
+        <br/>
+        <h3>Admin</h3>
+        <br/><br/>
         {tasksP ? (
           <>
-            <Button color="danger" onClick={this.switchBack}>
+            <Button color="info" onClick={this.switchBack}>
               Go Back
             </Button>
+            <br/><br/>
             <Table>
               <thead>
                 <th>Sales ID</th>
@@ -91,7 +94,7 @@ class Admin extends Component {
                   return (
                     <tr>
                       <td>{row.name}</td>
-                      <td>{row.datemod}</td>
+                      <td>{row.datemod.slice(0,10)}</td>
                       <td>
                         <Button name={row.name} onClick={this.showTasks}>{row.name}</Button>
                       </td>

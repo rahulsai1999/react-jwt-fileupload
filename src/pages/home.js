@@ -42,16 +42,17 @@ class Home extends Component {
     return (
       <div>
         <Container>
-          <h3>Hello</h3>
-
+          <br/>
+          <h3>IMS</h3>
+          <br/>
           {loggedin ? (
             <div>
-              <Button onClick={this.onlogout}>Logout</Button>
+              <Button color="danger" onClick={this.onlogout}>Logout</Button>
             </div>
           ) : (
             <div>
-              <Button>Login</Button>
-              <Button>Signup</Button>
+              <Button color="success">Login</Button>
+              <Button color="warning">Signup</Button>
             </div>
           )}
           {loggedin ? (
