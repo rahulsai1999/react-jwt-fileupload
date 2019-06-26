@@ -1,12 +1,12 @@
 import React, { Component } from "react";
 import Axios from "axios";
-import { Spinner, Table } from "reactstrap";
-let url = "http://localhost:5000/admin/docs";
+import { Spinner, Table, Button } from "reactstrap";
+let url = "http://localhost:5000/admin/docs/";
 
 class Admin extends Component {
   constructor(props) {
     super(props);
-    this.state=({ docs: null, valid: null });
+    this.state = { docs: null, valid: null, tasksP: false, tasks: null };
   }
 
   componentDidMount() {
@@ -19,35 +19,91 @@ class Admin extends Component {
       });
   }
 
+  showTasks = (event) => {
+    Axios.get(url + event.target.name)
+      .then(response => {
+        this.setState({ tasks: response.data, tasksP: true });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+
+  switchBack = () => {
+    this.setState({ tasksP: false });
+  };
+
   render() {
-    const { docs } = this.state;
+    const { docs, tasksP, tasks } = this.state;
     return (
       <div>
         <p>Admin</p>
-        <Table>
-          <thead>
-            <tr>
-              <th>Document ID</th>
-              <th>Date Modified</th>
-              <th>Link</th>
-            </tr>
-          </thead>
-          <tbody>
-            {docs ? (
-              docs.map(row => {
-                return (
+        {tasksP ? (
+          <>
+            <Button color="danger" onClick={this.switchBack}>
+              Go Back
+            </Button>
+            <Table>
+              <thead>
+                <th>Sales ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Phone No.</th>
+                <th>CIF</th>
+                <th>Address 1</th>
+                <th>Address 2</th>
+                <th>Email</th>
+              </thead>
+              <tbody>
+                {tasks ? (
+                  tasks.map(row => {
+                    return (
+                      <tr>
+                        <td>{row.salesID}</td>
+                        <td>{row.firstname}</td>
+                        <td>{row.lastname}</td>
+                        <td>{row.phoneNumber}</td>
+                        <td>{row.CIF}</td>
+                        <td>{row.address1}</td>
+                        <td>{row.address2}</td>
+                        <td>{row.email}</td>
+                      </tr>
+                    );
+                  })
+                ) : (
+                  <Spinner />
+                )}
+              </tbody>
+            </Table>
+          </>
+        ) : (
+          <Table>
+            <thead>
+              <tr>
+                <th>Document ID</th>
+                <th>Date Modified</th>
+                <th>Link</th>
+              </tr>
+            </thead>
+            <tbody>
+              {docs ? (
+                docs.map(row => {
+                  return (
                     <tr>
-                        <td>{row.name}</td>
-                        <td>{row.datemod}</td>
-                        <td>Link</td>
+                      <td>{row.name}</td>
+                      <td>{row.datemod}</td>
+                      <td>
+                        <Button name={row.name} onClick={this.showTasks}>{row.name}</Button>
+                      </td>
                     </tr>
-                )
-              })
-            ) : (
-              <Spinner />
-            )}
-          </tbody>
-        </Table>
+                  );
+                })
+              ) : (
+                <Spinner />
+              )}
+            </tbody>
+          </Table>
+        )}
       </div>
     );
   }
