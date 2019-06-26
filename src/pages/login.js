@@ -42,13 +42,18 @@ class Login extends Component {
   render() {
     return (
       <div>
+        <br />
+        <br />
         <Container>
+          <h3>Login</h3>
+          <br />
+          <br />
           <Form>
             <FormGroup>
               <Label>Username</Label>
               <Input
                 type="email"
-                placeholder="Enter email"
+                placeholder="Enter username"
                 onChange={this.onChangeUserName}
               />
             </FormGroup>
@@ -60,11 +65,19 @@ class Login extends Component {
                 onChange={this.onChangePassword}
               />
             </FormGroup>
-            <Button variant="primary" onClick={this.onlogin}>
+            <Button color="success" onClick={this.onlogin}>
               Login
             </Button>
             <div>{this.state.message}</div>
           </Form>
+          <br />
+          <br />
+          <a className="btn btn-primary" href="/">
+            Home
+          </a>{" "}
+          <a className="btn btn-danger" href="/signup">
+            Signup
+          </a>
         </Container>
       </div>
     );

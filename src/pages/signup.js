@@ -56,7 +56,12 @@ class Signup extends Component {
   render() {
     return (
       <div>
+        <br />
+        <br />
         <Container>
+          <h3>Sign Up</h3>
+          <br />
+          <br />
           <Form>
             <FormGroup>
               <Label>Username</Label>
@@ -91,11 +96,19 @@ class Signup extends Component {
                 onChange={this.onChangePhone}
               />
             </FormGroup>
-            <Button variant="success" onClick={this.onSignup}>
+            <Button color="success" onClick={this.onSignup}>
               Sign Up
             </Button>
             <div>{this.state.message}</div>
           </Form>
+          <br />
+          <br />
+          <a className="btn btn-primary" href="/">
+            Home
+          </a>{" "}
+          <a className="btn btn-danger" href="/login">
+            Login
+          </a>
         </Container>
       </div>
     );
