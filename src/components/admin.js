@@ -1,6 +1,9 @@
 import React, { Component } from "react";
 import Axios from "axios";
 import { Spinner, Table, Button } from "reactstrap";
+import { FilePond } from "react-filepond";
+import "filepond/dist/filepond.min.css";
+
 let url = "http://localhost:5000/admin/docs/";
 
 class Admin extends Component {
@@ -19,7 +22,7 @@ class Admin extends Component {
       });
   }
 
-  showTasks = (event) => {
+  showTasks = event => {
     Axios.get(url + event.target.name)
       .then(response => {
         this.setState({ tasks: response.data, tasksP: true });
@@ -37,15 +40,18 @@ class Admin extends Component {
     const { docs, tasksP, tasks } = this.state;
     return (
       <div>
-        <br/>
+        <br />
         <h3>Admin</h3>
-        <br/><br/>
+        <br />
+        <br />
+        <FilePond name="avatar" server="http://localhost:5000/validate" />
         {tasksP ? (
           <>
             <Button color="info" onClick={this.switchBack}>
               Go Back
             </Button>
-            <br/><br/>
+            <br />
+            <br />
             <Table>
               <thead>
                 <th>Sales ID</th>
@@ -94,9 +100,11 @@ class Admin extends Component {
                   return (
                     <tr>
                       <td>{row.name}</td>
-                      <td>{row.datemod.slice(0,10)}</td>
+                      <td>{row.datemod.slice(0, 10)}</td>
                       <td>
-                        <Button name={row.name} onClick={this.showTasks}>{row.name}</Button>
+                        <Button name={row.name} onClick={this.showTasks}>
+                          {row.name}
+                        </Button>
                       </td>
                     </tr>
                   );
