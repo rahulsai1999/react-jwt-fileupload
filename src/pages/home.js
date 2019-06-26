@@ -2,12 +2,14 @@ import React, { Component } from "react";
 import { Button } from "reactstrap";
 import _ from "lodash";
 import Axios from "axios";
+import Admin from "../components/admin";
+import Staff from "../components/staff";
 let axiosconfig = {};
 
 class Home extends Component {
   constructor(props) {
     super(props);
-    this.state = { user: "" };
+    this.state = { user: "", loggedin: false };
   }
 
   componentDidMount() {
@@ -24,20 +26,36 @@ class Home extends Component {
       Axios.get(url, axiosconfig).then(response => {
         const { data } = response;
         const isadmin = _.has(data, "isAdmin");
-        if (isadmin) this.setState({ user: "admin" });
-        else this.setState({ user: "staff" });
-        console.log(this.state.user);
+        if (isadmin) this.setState({ user: "admin", loggedin: true });
+        else this.setState({ user: "staff", loggedin: true });
       });
     }
   }
 
+  onlogout = () => {
+    window.localStorage.removeItem("token");
+    this.setState({ loggedin: false });
+  };
+
   render() {
+    const { user, loggedin } = this.state;
     return (
       <div>
         <h3>Hello</h3>
-        <Button color="success">Login</Button>
-        <Button color="danger">Sign Up</Button>
-        <div>{this.state.user}</div>
+
+        {loggedin ? (
+          <div>
+            <Button onClick={this.onlogout}>Logout</Button>
+          </div>
+        ) : (
+          <div>
+            <Button>Login</Button>
+            <Button>Signup</Button>
+          </div>
+        )}
+        {loggedin ? (
+          <div>{user === "admin" ? <Admin /> : <Staff />}</div>
+        ) : null}
       </div>
     );
   }
