@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { Button } from "reactstrap";
+import { Button, Container } from "reactstrap";
 import _ from "lodash";
 import Axios from "axios";
 import Admin from "../components/admin";
@@ -41,21 +41,23 @@ class Home extends Component {
     const { user, loggedin } = this.state;
     return (
       <div>
-        <h3>Hello</h3>
+        <Container>
+          <h3>Hello</h3>
 
-        {loggedin ? (
-          <div>
-            <Button onClick={this.onlogout}>Logout</Button>
-          </div>
-        ) : (
-          <div>
-            <Button>Login</Button>
-            <Button>Signup</Button>
-          </div>
-        )}
-        {loggedin ? (
-          <div>{user === "admin" ? <Admin /> : <Staff />}</div>
-        ) : null}
+          {loggedin ? (
+            <div>
+              <Button onClick={this.onlogout}>Logout</Button>
+            </div>
+          ) : (
+            <div>
+              <Button>Login</Button>
+              <Button>Signup</Button>
+            </div>
+          )}
+          {loggedin ? (
+            <div>{user === "admin" ? <Admin /> : <Staff />}</div>
+          ) : null}
+        </Container>
       </div>
     );
   }
