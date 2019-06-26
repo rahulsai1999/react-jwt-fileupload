@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import _ from "lodash";
 import { Button, Form, Container, FormGroup, Label, Input } from "reactstrap";
 import axios from "axios";
 import qs from "querystring";
@@ -12,7 +13,7 @@ let axiosconfig = {
 class Login extends Component {
   constructor() {
     super();
-    this.state = { username: "", password: "" };
+    this.state = { username: "", password: "", message: "" };
   }
 
   onChangeUserName = event => {
@@ -30,7 +31,11 @@ class Login extends Component {
     console.log(credentials);
     var url = "http://localhost:5000/login";
     axios.post(url, qs.stringify(credentials), axiosconfig).then(response => {
-      window.localStorage.setItem("token", response.data.token);
+      console.log(response.data);
+      _.has(response.data, "error")
+        ? this.setState({ message: "Invalid Credentials" })
+        : window.localStorage.setItem("token", response.data.token);
+      this.setState({ message: "Logged In" });
     });
   };
 
@@ -58,6 +63,7 @@ class Login extends Component {
             <Button variant="primary" onClick={this.onlogin}>
               Login
             </Button>
+            <div>{this.state.message}</div>
           </Form>
         </Container>
       </div>
